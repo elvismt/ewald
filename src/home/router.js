@@ -40,3 +40,23 @@ router.post('/login', function(req, res) {
     });
     res.status(200).send('hello');
 });
+
+router.get('/samples', function(req, res) {
+    res.render(path.join(__dirname, 'templates/samples.pug'), {
+        title: 'samples',
+        samples: [
+            {
+                name: 'A sample',
+                chemistry: 'A chemistry',
+                locality: 'A locality',
+                source: 'A source',
+            },
+            {
+                name: 'A sample',
+                chemistry: 'A chemistry',
+                locality: 'A locality',
+                source: 'A source',
+            },
+        ],
+    });
+});

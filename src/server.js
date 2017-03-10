@@ -13,3 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
+const path = require('path');
+const settings = require('./settings.js');
+const app = module.exports = express();
+
+app.set('view engine', 'pug');
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'common/static/')));
+app.use(helmet());
+
+const homeRouter = require('./home/router.js');
+app.use(homeRouter);
+
+app.listen(settings.SERVER_PORT);

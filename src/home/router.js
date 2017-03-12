@@ -17,9 +17,7 @@
 const express = require('express');
 const path = require('path');
 const app = require('../server.js');
-const settings = require('../settings.js');
 const router = module.exports = express.Router();
-const mongo = require('mongodb').MongoClient;
 
 router.get('/', function(req, res) {
     res.render(path.join(__dirname, 'templates/home.pug'), {
@@ -34,10 +32,6 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/login', function(req, res) {
-    mongo.connect(settings.MONGO_URL, function(err, db) {
-        if (err) throw err;
-        console.log('Connected to db!');
-    });
     res.status(200).send('hello');
 });
 

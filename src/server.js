@@ -21,12 +21,14 @@ const path = require('path');
 const settings = require('./settings.js');
 const app = module.exports = express();
 
+// Common middleware
 app.set('view engine', 'pug');
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'common/static/')));
 app.use(helmet());
 
-const homeRouter = require('./home/router.js');
-app.use(homeRouter);
+// Routers
+app.use(require('./home/router'));
 
+// Let's play!
 app.listen(settings.SERVER_PORT);

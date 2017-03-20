@@ -22,6 +22,9 @@ const server = module.exports = express();
 server.use(bodyParser.json());
 server.set('view engine', 'pug');
 
+// default route (/) will be the home module
+server.get('/', (req, res) => res.redirect('/home'));
+
 config.setupModules(server);
 server.listen(config.SERVER_PORT || 3000);
 

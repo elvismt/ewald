@@ -31,7 +31,7 @@ module.exports = {
             server.use(
                 '/' + mod + '_static',
                 express.static('./' + mod + '/static'));
-            server.use(require('./' + mod + '/router'));
+            server.use('/' + mod, require('./' + mod + '/router'));
         });
     }
 };

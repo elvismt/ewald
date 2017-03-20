@@ -1,0 +1,30 @@
+{
+  "name": "ewald",
+  "version": "0.1.0",
+  "description": "A Web based X-Ray diffraction data analysis tool",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elvismt/ewald.git"
+  },
+  "keywords": [
+    "X-Rays",
+    "Node.js",
+    "Diffraction"
+  ],
+  "author": "Elvis M. Teixeira",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/elvismt/ewald/issues"
+  },
+  "homepage": "https://github.com/elvismt/ewald#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "pug": "^2.0.0-beta11"
+  }
+}

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2017 Elvis Teixeira
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,24 +15,43 @@
  */
 
 const express = require('express');
+let config = module.exports;
 
-module.exports = {
-    SERVER_PORT: 8080,
-    MODULES: [
-        'home'
-    ],
-    setupModules: function(server) {
-        // Static files shared among modules
-        server.use('/static', express.static('./common'));
-        // Set views and static directories in each module as a
-        // source for these types of resources and create routers
-        server.set('views', this.MODULES.map((mod) => './' + mod + '/views'));
-        this.MODULES.forEach((mod) => {
-            server.use(
-                '/' + mod + '_static',
-                express.static('./' + mod + '/static'));
-            server.use('/' + mod, require('./' + mod + '/router'));
-        });
-    }
+/*
+ * Port in which the server should bind and listen.
+ */
+config.SERVER_PORT = 8080;
+
+/*
+ * Names of the modules/subapps the server should set up.
+ * Each name should match a subdirectory in the same
+ * directory where this file is.
+ */
+config.MODULE_NAMES = [
+    'home'
+];
+
+/*
+ * Sets up the modules especified in config.MODULE_NAMES
+ * and adds their router to the server workflow.
+ */
+config.setup = function(server) {
+    this.MODULES = {};
+    this.MODULE_NAMES.forEach((module_name) => {
+        // this sub app is the module
+        let module = express();
+        // module level and common static files folder
+        module.use('/static', express.static('./' + module_name + '/static'));
+        module.use('/public', express.static('./common'));
+        // module level views folder
+        module.set('view engine', 'pug');
+        module.set('views', ['./' + module_name + '/views']);
+        // main router exported by the module
+        module.use('/', require('./' + module_name + '/router'));
+        // add the module to the server
+        server.use('/' + module_name, module);
+        // and keep track of the module object
+        this.MODULES[module_name] = module;
+    });
 };
 

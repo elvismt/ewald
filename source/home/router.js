@@ -18,6 +18,6 @@ const express = require('express');
 const router = module.exports = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('base.pug');
+    res.render('home/base.pug');
 });
 

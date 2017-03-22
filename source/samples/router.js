@@ -15,22 +15,5 @@
  */
 
 const express = require('express');
-const bodyParser = require('body-parser');
-const settings = require('./settings');
-const server = module.exports = express();
-
-// place global middleware
-server.use('/static', express.static('./static'));
-server.use(bodyParser.json());
-server.set('view engine', 'pug');
-server.set('views', './views');
-
-// set up modules
-settings.MODULE_NAMES.forEach((modname) => {
-    // include module router
-   server.use(`/${modname}`, require(`./${modname}/router`));
-});
-
-// and... let's play the game
-server.listen(settings.SERVER_PORT);
+const router = module.exports = express.Router();
 

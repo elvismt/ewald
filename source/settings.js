@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2017 Elvis Teixeira
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const settings = require('./settings');
-const server = module.exports = express();
+let settings = module.exports;
 
-// place global middleware
-server.use('/static', express.static('./static'));
-server.use(bodyParser.json());
-server.set('view engine', 'pug');
-server.set('views', './views');
+/*
+ * Port in which the server should bind and listen.
+ */
+settings.SERVER_PORT = 8080;
 
-// set up modules
-settings.MODULE_NAMES.forEach((modname) => {
-    // include module router
-   server.use(`/${modname}`, require(`./${modname}/router`));
-});
-
-// and... let's play the game
-server.listen(settings.SERVER_PORT);
+/*
+ * Names of the modules the server should set up.
+ * Each name should match a subdirectory in this
+ * source tree
+ */
+settings.MODULE_NAMES = [
+    'home',
+    'samples'
+];
 

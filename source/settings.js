@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+'use strict';
 let settings = module.exports;
 
 /*
@@ -30,4 +31,9 @@ settings.MODULE_NAMES = [
     'home',
     'samples'
 ];
+
+/*
+ * Name of the module to be aliased to the / route
+ */
+settings.rootModule = 'home';
 

@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
+'use strict';
 const express = require('express');
 const router = module.exports = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('home/base.pug');
+    // TODO set up sessions
+    res.redirect('/home/login');
+});
+
+router.get('/login', (req, res) => {
+    res.render('home/login.pug');
 });
 

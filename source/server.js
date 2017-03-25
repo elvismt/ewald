@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
 const settings = require('./settings');
@@ -30,6 +31,12 @@ settings.MODULE_NAMES.forEach((modname) => {
     // include module router
    server.use(`/${modname}`, require(`./${modname}/router`));
 });
+
+if (settings.rootModule) {
+    server.use('/', (req, res) => {
+        res.redirect(settings.rootModule);
+    });
+}
 
 // and... let's play the game
 server.listen(settings.SERVER_PORT);

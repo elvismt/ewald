@@ -15,20 +15,26 @@
  */
 
 'use strict';
-const express = require('express');
-const router = module.exports = express.Router();
+const settings = require('./settings');
+const mongodb = require('mongodb');
 
-router.get('/', (req, res) => {
-    // TODO set up sessions
-    res.redirect('/home/login');
-});
-
-router.get('/login', (req, res) => {
-    res.render('home/login.pug');
-});
-
-router.post('/login', (req, res) => {
-    res.status(403);
-    res.send('Incorrect credentials');
-});
+module._dbConn = {};
+module.exports = {
+    db: function(dbName, doneCb) {
+        if (module._dbConn[dbName]) {
+            doneCb(null, module._dbConn[dbName]);
+            return;
+        }
+        mongodb.MongoClient.connect(
+            settings.MONGODB_BASEURL + dbName,
+            (err, db) => {
+                if (err) {
+                    doneCb(err, null);
+                    return;
+                }
+                module._dbConn[dbName] = db;
+                doneCb(null, module._dbConn[dbName]);
+        });
+    }
+};
 

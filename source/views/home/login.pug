@@ -2,16 +2,17 @@ extends base.pug
 
 block basehead
     title Ewald - login
+    script(src='/static/js/home/login.js')
 
 block basebody
     div(class='w3-display-container' style='width:100%;height:100%')
-        div(class='w3-display-middle w3-card w3-white')
-            div(class='w3-container w3-teal w3-padding-large w3-center')
+        div(class='w3-display-middle w3-card-4')
+            header(class='w3-container w3-teal w3-padding-large w3-center')
                 p Ewald
             form(id='login-form' class='w3-padding-large')
                 input(name='uname' class='w3-input' type='text' style='min-width:250px')
                 label(class='w3-label') User name
-                input(name='psw' class='w3-input' type='password' style='min-width:250px')
+                input(name='psswd' class='w3-input' type='password' style='min-width:250px')
                 label(class='w3-label') Password
                 br
                 button(class='w3-btn w3-teal' style='margin-top:16px') Login

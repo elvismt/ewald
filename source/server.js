@@ -16,28 +16,46 @@
 
 'use strict';
 const express = require('express');
+const helmet = require('helmet');
+const sessions = require('express-session');
+const MongoStore = require('connect-mongo')(sessions);
 const bodyParser = require('body-parser');
 const settings = require('./settings');
+const DB = require('./db');
 const server = module.exports = express();
 
-// place global middleware
-server.use('/static', express.static('./static'));
-server.use(bodyParser.json());
+// Place global middleware
+server.use(helmet());
 server.set('view engine', 'pug');
 server.set('views', './views');
+server.use('/static', express.static('./static'));
+server.use(bodyParser.json());
 
-// set up modules
+// Set up sessions
+DB.db(settings.MONGODB_SESSIONS, (err, dbConn) => {
+    if (err) throw err;
+    server.use(sessions({
+        secret: settings.SESSIONS_SECRET,
+        name: settings.SESSIONS_NAME,
+        store: new MongoStore({ db: dbConn }),
+        proxy: true,
+        resave: true,
+        saveUninitialized: true
+    }));
+});
+
+// Set up modules
 settings.MODULE_NAMES.forEach((modname) => {
-    // include module router
    server.use(`/${modname}`, require(`./${modname}/router`));
 });
 
-if (settings.rootModule) {
+// What module receives requests for '/'
+if (settings.ROOT_MODULE) {
     server.use('/', (req, res) => {
-        res.redirect(settings.rootModule);
+        res.redirect(settings.ROOT_MODULE);
     });
 }
 
-// and... let's play the game
-server.listen(settings.SERVER_PORT);
+// And... let's play the game
+server.listen(settings.SERVICE_PORT);
 

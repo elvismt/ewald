@@ -20,7 +20,17 @@ let settings = module.exports;
 /*
  * Port in which the server should bind and listen.
  */
-settings.SERVER_PORT = 8080;
+settings.SERVICE_PORT = 8080;
+
+/*
+ * MongoDB server URL
+ */
+settings.MONGODB_BASEURL = "mongodb://localhost:27017/";
+
+/*
+ * Mongo database collection for sessions
+ */
+settings.MONGODB_SESSIONS = 'sessions';
 
 /*
  * Names of the modules the server should set up.
@@ -35,5 +45,15 @@ settings.MODULE_NAMES = [
 /*
  * Name of the module to be aliased to the / route
  */
-settings.rootModule = 'home';
+settings.ROOT_MODULE = 'home';
+
+/*
+ * Random string for sessions module
+ */
+settings.SESSIONS_SECRET = 'D6395G58JB6GF8D0E36F5CGSL';
+
+/*
+ * Random string for sessions cookie name
+ */
+settings.SESSIONS_NAME = '605NDG395NFG30KYHTS795K6';
 

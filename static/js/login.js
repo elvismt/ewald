@@ -13,28 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 'use strict';
-const settings = require('./settings');
-const mongodb = require('mongodb');
 
-module._dbConn = {};
-module.exports = {
-    db: function(dbName, doneCb) {
-        if (module._dbConn[dbName]) {
-            doneCb(null, module._dbConn[dbName]);
-            return;
+$(document).on('submit', '#login-form', function(event) {
+    event.preventDefault(); // dont reload the page
+    let creds = JSON.stringify({
+        uname: $("input[name=uname]").val(),
+        psswd: $("input[name=psswd]").val()
+        // csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+    });
+    $.ajax({
+        type: 'POST',
+        url: '/home/login/',
+        contentType: 'application/json',
+        data: creds,
+        success: function() {
+            window.location.href = "/home/";
+        },
+        error: function() {
+            $('#login-failed-modal').css('display', 'block');
         }
-        mongodb.MongoClient.connect(
-            settings.MONGODB_BASEURL + dbName,
-            (err, db) => {
-                if (err) {
-                    doneCb(err, null);
-                    return;
-                }
-                module._dbConn[dbName] = db;
-                doneCb(null, module._dbConn[dbName]);
-        });
-    }
-};
+    });
+});
 

@@ -16,5 +16,18 @@
 
 'use strict';
 const express = require('express');
-const router = module.exports = express.Router();
+const helmet = require('helmet');
+const bodyParser = require('body-parser');
+const config = require('./config');
+const app = module.exports = express();
+
+app.use(helmet());
+app.set('view engine', 'pug');
+app.set('views', './views');
+app.use('/static', express.static('./static'));
+app.use(bodyParser.json());
+
+app.get('/', (req, res) => res.redirect('/home'));
+app.use('/home', require('./routers/home'));
+app.listen(config.SERVICE_PORT || 8080);
 

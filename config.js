@@ -15,20 +15,9 @@
  */
 
 'use strict';
-const express = require('express');
-const router = module.exports = express.Router();
 
-router.get('/', (req, res) => {
-    // TODO set up sessions
-    res.redirect('/home/login');
-});
-
-router.get('/login', (req, res) => {
-    res.render('home/login.pug');
-});
-
-router.post('/login', (req, res) => {
-    res.status(403);
-    res.send('Incorrect credentials');
-});
+module.exports = {
+    SERVICE_PORT: 8080,
+    MONGO_BASEURL: 'mongodb://localhost:27017/'
+};
 
